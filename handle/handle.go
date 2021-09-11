@@ -11,31 +11,43 @@ import (
 // the standard error interface
 const ErrNonErrorPanic = "panic: %v"
 
+// And constructs a Handler that performs the left Handler, and if it returns
+// true will return the result of performing the right Handler
+func And(l Handler, r Handler) Handler {
+	return func(c actor.Context, m actor.Message) bool {
+		if !l(c, m) {
+			return false
+		}
+		return r(c, m)
+	}
+}
+
+// Or constructs a Handler that performs the left Handler, and if it returns
+// false will return the result of performing the right Handler
+func Or(l Handler, r Handler) Handler {
+	return func(c actor.Context, m actor.Message) bool {
+		if l(c, m) {
+			return true
+		}
+		return r(c, m)
+	}
+}
+
 // Any is a Handler composition that will return true the first time any of
 // its constituent Handlers returns true
 func Any(first Handler, rest ...Handler) Handler {
-	all := append([]Handler{first}, rest...)
-	return func(c actor.Context, m actor.Message) bool {
-		for _, h := range all {
-			if ok := h(c, m); ok {
-				return ok
-			}
-		}
-		return false
+	if len(rest) > 0 {
+		return Or(first, Any(rest[0], rest[1:]...))
 	}
+	return first
 }
 
 // All is a Handler composition that will only return true if all of its constituent Handlers returns true
 func All(first Handler, rest ...Handler) Handler {
-	all := append([]Handler{first}, rest...)
-	return func(c actor.Context, m actor.Message) bool {
-		for _, h := range all {
-			if ok := h(c, m); !ok {
-				return ok
-			}
-		}
-		return true
+	if len(rest) > 0 {
+		return And(first, All(rest[0], rest[1:]...))
 	}
+	return first
 }
 
 // Panic wraps a Handler and will catch any panic value that is recovered in

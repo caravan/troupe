@@ -56,6 +56,7 @@ func TestAll(t *testing.T) {
 
 	allTrue := test.sys.Spawn(handle.All(returnTrue, returnTrue))
 	firstTrue := test.sys.Spawn(handle.All(returnTrue, returnFalse))
+	firstFalse := test.sys.Spawn(handle.All(returnFalse, returnTrue))
 	errorsOut := test.sys.Spawn(handle.All(returnTrue, returnError))
 
 	allTrue.Send() <- "hello"
@@ -68,9 +69,14 @@ func TestAll(t *testing.T) {
 	as.Equal(1, test.deadLetters)
 	as.Equal(0, test.errors)
 
+	firstFalse.Send() <- "hello"
+	time.Sleep(time.Millisecond)
+	as.Equal(2, test.deadLetters)
+	as.Equal(0, test.errors)
+
 	errorsOut.Send() <- "hello"
 	time.Sleep(time.Millisecond)
-	as.Equal(1, test.deadLetters)
+	as.Equal(2, test.deadLetters)
 	as.Equal(1, test.errors)
 }
 
