@@ -1,6 +1,9 @@
 package report
 
-import "github.com/caravan/troupe/actor"
+import (
+	"github.com/caravan/essentials/message"
+	"github.com/caravan/troupe/actor"
+)
 
 type (
 	// Report is a Message that travels upward via the supervisor chain
@@ -20,7 +23,7 @@ type (
 	DeadLetter struct {
 		report
 		Source actor.Address
-		actor.Message
+		message.Message
 	}
 
 	report struct{}
@@ -44,9 +47,9 @@ func AnError(c actor.Context, err error) {
 	}
 }
 
-// AnUnhandledMessage reports an unhandled actor.Message to a Context's
+// AnUnhandledMessage reports an unhandled message.Message to a Context's
 // supervisor chain
-func AnUnhandledMessage(c actor.Context, m actor.Message) {
+func AnUnhandledMessage(c actor.Context, m message.Message) {
 	c.Supervisor().Send() <- DeadLetter{
 		Source:  c.Address(),
 		Message: m,

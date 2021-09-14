@@ -5,6 +5,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/caravan/essentials/message"
 	"github.com/caravan/troupe"
 	"github.com/caravan/troupe/actor"
 	"github.com/caravan/troupe/actor/system"
@@ -36,16 +37,16 @@ func makeHandlerTest() *handlerTest {
 }
 
 var (
-	returnTrue = func(_ actor.Context, _ actor.Message) bool {
+	returnTrue = func(_ actor.Context, _ message.Message) bool {
 		return true
 	}
-	returnFalse = func(_ actor.Context, _ actor.Message) bool {
+	returnFalse = func(_ actor.Context, _ message.Message) bool {
 		return false
 	}
-	returnError = func(_ actor.Context, _ actor.Message) bool {
+	returnError = func(_ actor.Context, _ message.Message) bool {
 		panic(errors.New("there was an error"))
 	}
-	returnNonError = func(_ actor.Context, _ actor.Message) bool {
+	returnNonError = func(_ actor.Context, _ message.Message) bool {
 		panic("this is a string")
 	}
 )
