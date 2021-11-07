@@ -34,8 +34,8 @@ func Or(l Handler, r Handler) Handler {
 	}
 }
 
-// Any is a Handler composition that will return true the first time any of
-// its constituent Handlers returns true
+// Any is a Handler composition that will return true the first time any of its
+// constituent Handlers returns true
 func Any(first Handler, rest ...Handler) Handler {
 	if len(rest) > 0 {
 		return Or(first, Any(rest[0], rest[1:]...))
@@ -43,7 +43,8 @@ func Any(first Handler, rest ...Handler) Handler {
 	return first
 }
 
-// All is a Handler composition that will only return true if all of its constituent Handlers returns true
+// All is a Handler composition that will only return true if all of its
+// constituent Handlers returns true
 func All(first Handler, rest ...Handler) Handler {
 	if len(rest) > 0 {
 		return And(first, All(rest[0], rest[1:]...))
@@ -69,8 +70,8 @@ func Panic(h Handler) Handler {
 	}
 }
 
-// UnhandledMessage wraps a Handler and will report a report.DeadLetter if
-// that Handler returns false
+// UnhandledMessage wraps a Handler and will report a report.DeadLetter if that
+// Handler returns false
 func UnhandledMessage(h Handler) Handler {
 	return func(c actor.Context, m message.Message) bool {
 		if !h(c, m) {

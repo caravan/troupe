@@ -6,8 +6,8 @@ import (
 	"github.com/caravan/troupe/handle"
 )
 
-// Selector is used to map an incoming message.Message into a form that can
-// be passed downstream into a handle.Handler
+// Selector is used to map an incoming message.Message into a form that can be
+// passed downstream into a handle.Handler
 type Selector func(actor.Context, message.Message) message.Message
 
 // Into returns a handle.Handler that performs a Selector mapping and then

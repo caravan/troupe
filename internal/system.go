@@ -28,8 +28,8 @@ func MakeSystem(cfg system.Config) *System {
 	return sys
 }
 
-// Shutdown instructs the System to stop processing Messages and to destroy
-// all of its actor.Actor children
+// Shutdown instructs the System to stop processing Messages and to destroy all
+// of its actor.Actor children
 func (s *System) Shutdown() {
 	s.Close()
 }

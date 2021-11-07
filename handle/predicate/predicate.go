@@ -11,7 +11,7 @@ type (
 )
 
 // Handler constructs a predicated Handler, one where a Predicate check is
-// performed on an message.Message, and if the result is true, will see the
+// performed on a message.Message, and if the result is true, will see the
 // message passed through the Accept handler
 func Handler(p Predicate, a Accept) handle.Handler {
 	return handle.And(handle.Handler(p), handle.Handler(a))
