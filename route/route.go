@@ -3,7 +3,7 @@ package route
 import "github.com/caravan/troupe/actor"
 
 // RoundRobin spawns a new actor.Actor that performs round-robin routing of
-// each incoming message.Message
+// each incoming actor.Message
 func RoundRobin(
 	s actor.Spawner, first actor.Address, rest ...actor.Address,
 ) actor.Address {
@@ -24,7 +24,7 @@ func RoundRobin(
 }
 
 // FanOut spawns a new actor.Actor that performs found-out routing of each
-// incoming message.Message
+// incoming actor.Message
 func FanOut(
 	s actor.Spawner, first actor.Address, rest ...actor.Address,
 ) actor.Address {

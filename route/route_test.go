@@ -4,7 +4,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/caravan/essentials/message"
 	"github.com/caravan/troupe"
 	"github.com/caravan/troupe/actor"
 	"github.com/caravan/troupe/actor/system"
@@ -18,7 +17,7 @@ type (
 		t        *testing.T
 		handlers int
 		router   actor.Address
-		msgs     [][]message.Message
+		msgs     [][]actor.Message
 		addrs    []actor.Address
 	}
 
@@ -32,7 +31,7 @@ func makeRouteTest(t *testing.T, handlers int, router routeFunc) *routeTest {
 		System:   troupe.System(system.Config{}),
 		t:        t,
 		handlers: handlers,
-		msgs:     make([][]message.Message, handlers),
+		msgs:     make([][]actor.Message, handlers),
 		addrs:    make([]actor.Address, handlers),
 	}
 

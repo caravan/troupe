@@ -3,7 +3,6 @@ package selector_test
 import (
 	"testing"
 
-	"github.com/caravan/essentials/message"
 	"github.com/caravan/troupe/actor"
 	"github.com/caravan/troupe/handle/selector"
 	"github.com/stretchr/testify/assert"
@@ -19,10 +18,10 @@ func TestInto(t *testing.T) {
 
 	var n string
 	h := selector.Into(
-		func(_ actor.Context, m message.Message) message.Message {
+		func(_ actor.Context, m actor.Message) actor.Message {
 			return m.(*selectorTest).name
 		},
-		func(_ actor.Context, m message.Message) bool {
+		func(_ actor.Context, m actor.Message) bool {
 			n = m.(string)
 			return true
 		},

@@ -3,7 +3,6 @@ package handle
 import (
 	"fmt"
 
-	"github.com/caravan/essentials/message"
 	"github.com/caravan/troupe/actor"
 	"github.com/caravan/troupe/actor/report"
 )
@@ -15,7 +14,7 @@ const ErrNonErrorPanic = "panic: %v"
 // And constructs a Handler that performs the left Handler, and if it returns
 // true will return the result of performing the right Handler
 func And(l Handler, r Handler) Handler {
-	return func(c actor.Context, m message.Message) bool {
+	return func(c actor.Context, m actor.Message) bool {
 		if !l(c, m) {
 			return false
 		}
@@ -26,7 +25,7 @@ func And(l Handler, r Handler) Handler {
 // Or constructs a Handler that performs the left Handler, and if it returns
 // false will return the result of performing the right Handler
 func Or(l Handler, r Handler) Handler {
-	return func(c actor.Context, m message.Message) bool {
+	return func(c actor.Context, m actor.Message) bool {
 		if l(c, m) {
 			return true
 		}
@@ -55,7 +54,7 @@ func All(first Handler, rest ...Handler) Handler {
 // Panic wraps a Handler and will catch any panic value that is recovered in
 // executing that Handler. These will be reported as a report.Error
 func Panic(h Handler) Handler {
-	return func(c actor.Context, m message.Message) (result bool) {
+	return func(c actor.Context, m actor.Message) (result bool) {
 		defer func() {
 			if rec := recover(); rec != nil {
 				if err, ok := rec.(error); ok {
@@ -73,7 +72,7 @@ func Panic(h Handler) Handler {
 // UnhandledMessage wraps a Handler and will report a report.DeadLetter if that
 // Handler returns false
 func UnhandledMessage(h Handler) Handler {
-	return func(c actor.Context, m message.Message) bool {
+	return func(c actor.Context, m actor.Message) bool {
 		if !h(c, m) {
 			report.AnUnhandledMessage(c, m)
 		}

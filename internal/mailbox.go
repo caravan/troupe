@@ -2,14 +2,13 @@ package internal
 
 import (
 	"container/list"
-
-	"github.com/caravan/essentials/message"
+	"github.com/caravan/troupe/actor"
 )
 
 // Mailbox is the queueing mechanism for a local actor.Actor
 type Mailbox struct {
-	in     chan message.Message
-	out    chan message.Message
+	in     chan actor.Message
+	out    chan actor.Message
 	closed chan struct{}
 	queue  *list.List
 }
@@ -18,8 +17,8 @@ type Mailbox struct {
 func MakeMailbox() *Mailbox {
 	res := &Mailbox{
 		queue:  list.New(),
-		in:     make(chan message.Message),
-		out:    make(chan message.Message),
+		in:     make(chan actor.Message),
+		out:    make(chan actor.Message),
 		closed: make(chan struct{}),
 	}
 	go res.process()
@@ -53,13 +52,13 @@ closed:
 
 // Send returns the Mailbox's sending channel. Will usually be exposed by an
 // actor.Address implementation that composes it in
-func (m *Mailbox) Send() chan<- message.Message {
+func (m *Mailbox) Send() chan<- actor.Message {
 	return m.in
 }
 
 // Receive returns the Mailbox's receiving channel. Will usually be exposed by
 // an actor.Context implementation that composes it in
-func (m *Mailbox) Receive() <-chan message.Message {
+func (m *Mailbox) Receive() <-chan actor.Message {
 	return m.out
 }
 

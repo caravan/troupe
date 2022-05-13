@@ -5,7 +5,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/caravan/essentials/message"
 	"github.com/caravan/troupe"
 	"github.com/caravan/troupe/actor"
 	"github.com/caravan/troupe/actor/report"
@@ -43,7 +42,7 @@ func TestActorSystem(t *testing.T) {
 	s := troupe.System(system.Config{})
 	as.NotNil(s)
 
-	var msg message.Message
+	var msg actor.Message
 	done := make(chan struct{})
 
 	addr := s.Spawn(
@@ -65,8 +64,8 @@ func TestActorSystem(t *testing.T) {
 func TestSystemRouting(t *testing.T) {
 	as := assert.New(t)
 
-	var errors []message.Message
-	var deadLetters []message.Message
+	var errors []actor.Message
+	var deadLetters []actor.Message
 
 	sys := troupe.System(system.Config{
 		Errors: actor.Singleton(func(c actor.Context) {

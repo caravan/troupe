@@ -1,7 +1,5 @@
 package actor
 
-import "github.com/caravan/essentials/message"
-
 type (
 	// Actor is the bare minimum interface for an Actor
 	Actor func(Context)
@@ -13,25 +11,38 @@ type (
 	}
 
 	// Arg is an argument to the instantiation of a new Actor
-	Arg interface{}
+	Arg any
 
 	// Spawner is a type that is capable of contextually Spawning a new Actor
 	Spawner interface {
 		Spawn(Factory, ...Arg) Address
 	}
 
+	// Message is the base level message passed around by the Actor System
+	Message any
+
+	// Receiver is a type that is capable of receiving a Message via a channel
+	Receiver interface {
+		Receive() <-chan Message
+	}
+
 	// Context allows an Actor to contextually interact with the Actor System
 	Context interface {
 		Spawner
-		message.Receiver
+		Receiver
 		Address() Address
 		Supervisor() Address
+	}
+
+	// Sender is a type that is capable of sending a Message via a channel
+	Sender interface {
+		Send() chan<- Message
 	}
 
 	// Address is the address of an Actor. This is a location-independent
 	// interface that allows a client of an Actor to deliver a Message to it
 	Address interface {
-		message.Sender
+		Sender
 		EqualTo(Address) bool
 	}
 
