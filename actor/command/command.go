@@ -6,24 +6,25 @@ type (
 		command()
 	}
 
-	command struct{}
-
 	// Stop instructs an Actor to stop processing Messages entire (shutdown)
 	// though an Actor may choose to ignore this Command
-	Stop struct{ command }
+	Stop struct{}
 
 	// Pause instructs an Actor to pause its processing of incoming Messages
 	// though an Actor may choose to ignore this Command
-	Pause struct{ command }
+	Pause struct{}
 
 	// Resume instructs an Actor to resume processing of incoming Messages
 	// though an Actor may choose to ignore this Command
-	Resume struct{ command }
+	Resume struct{}
 
 	// Restart instructs an Actor to restart processing, including the
 	// processing of all Messages it has seen since instantiation, though an
 	// Actor may choose to ignore this Command
-	Restart struct{ command }
+	Restart struct{}
 )
 
-func (*command) command() {}
+func (*Stop) command()    {}
+func (*Pause) command()   {}
+func (*Resume) command()  {}
+func (*Restart) command() {}

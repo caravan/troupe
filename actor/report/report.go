@@ -12,7 +12,6 @@ type (
 
 	// Error wraps an error that may propagate upward via the supervisor chain
 	Error struct {
-		report
 		Source  actor.Address
 		Wrapped error
 	}
@@ -20,15 +19,13 @@ type (
 	// DeadLetter reports an unhandled Message that may propagate upward via
 	// the supervisor chain
 	DeadLetter struct {
-		report
 		Source actor.Address
 		actor.Message
 	}
-
-	report struct{}
 )
 
-func (*report) report() {}
+func (*Error) report()      {}
+func (*DeadLetter) report() {}
 
 func (e *Error) Error() string {
 	return e.Wrapped.Error()

@@ -6,25 +6,28 @@ type (
 		lifecycle()
 	}
 
-	lifecycle struct{}
-
 	// Starting informs the Actor that it is in the process of starting
-	Starting struct{ lifecycle }
+	Starting struct{}
 
 	// Started informs the Actor that it has completed the process of starting
-	Started struct{ lifecycle }
+	Started struct{}
 
 	// Paused informs the Actor that it has agreed to being paused
-	Paused struct{ lifecycle }
+	Paused struct{}
 
 	// Resuming informs the Actor that it is in the process of resuming
-	Resuming struct{ lifecycle }
+	Resuming struct{}
 
 	// Restarting informs the Actor that it is in the process of restarting
-	Restarting struct{ lifecycle }
+	Restarting struct{}
 
 	//Stopped informs the Actor that it has agreed to being stopped
-	Stopped struct{ lifecycle }
+	Stopped struct{}
 )
 
-func (*lifecycle) lifecycle() {}
+func (*Starting) lifecycle()   {}
+func (*Started) lifecycle()    {}
+func (*Paused) lifecycle()     {}
+func (*Resuming) lifecycle()   {}
+func (*Restarting) lifecycle() {}
+func (*Stopped) lifecycle()    {}

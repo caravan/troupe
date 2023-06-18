@@ -16,7 +16,6 @@ type (
 		system.System
 		t        *testing.T
 		handlers int
-		router   actor.Address
 		msgs     [][]actor.Message
 		addrs    []actor.Address
 	}
